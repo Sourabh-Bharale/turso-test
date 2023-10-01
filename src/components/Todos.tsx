@@ -43,7 +43,7 @@ const Todos = () => {
       <div className="flex flex-col gap-2">
       {
         _todos?.map((todo) => (
-          <Todo todo={todo} />
+          <Todo key={todo.id} todo={todo} />
           ))
         }
         </div>

@@ -76,7 +76,7 @@ export function CreateTodo() {
         <DialogHeader>
           <DialogTitle>Create Todo</DialogTitle>
           <DialogDescription>
-            create a new todo for your profile here. Click save when you're done.
+            create a new todo for your profile here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
