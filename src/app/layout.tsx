@@ -9,6 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'RememBro',
+  description:'--experimental This is a simple todo app to test out Nextjs13.5 with Turso DB'
 }
 
 export default function RootLayout({
