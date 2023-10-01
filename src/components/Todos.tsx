@@ -1,8 +1,10 @@
 'use client'
 import { TodoRequest } from '@/lib/validators/todo'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
+import Todo from './Todo'
+import { DrizzleTodos } from '@/lib/db/schema'
 
 type Props = {}
 
@@ -10,7 +12,7 @@ const Todos = (props: Props) => {
     const {data:_todos,isLoading,isFetching} = useQuery({
         queryKey:['todo'],
         queryFn:async ()=>{
-            const {data} = await axios.get<TodoRequest[]>('/api/getTodo')
+            const {data} = await axios.get<DrizzleTodos[]>('/api/getTodo')
             return data
         }
     })
@@ -18,7 +20,7 @@ const Todos = (props: Props) => {
     <div>
       {
         _todos?.map((todo)=>(
-          <h1>{todo.title}</h1>
+          <Todo todo={todo}/>
         ))
       }
     </div>
