@@ -88,8 +88,10 @@ const Todo = ({todo}: Props) => {
     <div className="flex flex-col border-2 p-2 rounded-xl">
         <h1>{todo.title}</h1>
         <h1>{todo.description}</h1>
+        <div className="flex gap-2 items-center">
         <Checkbox checked={checked} onClick={()=>{_updateTodo()}} onChange={()=>setChecked(!checked)}/>
         <Delete onClick={()=>{_deleteTodo()}} className="w-5 h-5 fill-destructive"/>
+        </div>
     </div>
     </>
   )

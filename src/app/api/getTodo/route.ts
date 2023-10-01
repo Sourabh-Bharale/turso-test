@@ -1,7 +1,7 @@
 import { db } from "@/lib/db"
 import { todos } from "@/lib/db/schema"
 import { auth } from "@clerk/nextjs"
-import { eq } from "drizzle-orm"
+import { and, eq } from "drizzle-orm"
 import z from "zod"
 
 export async function GET(req: Request, res: Response) {
@@ -9,8 +9,14 @@ export async function GET(req: Request, res: Response) {
         const {userId} = await auth()
         if(!userId)
         return new Response('Unauthorized', { status: 200 })
-
-        const alltodos = await db.select().from(todos).where(eq(todos.user_id,userId))
+        const {searchParams} = new URL(req.url)
+        const completed = searchParams.get('completed') ==='true'
+        let alltodos
+        if(completed){
+             alltodos = await db.select().from(todos).where(and(eq(todos.user_id,userId),eq(todos.completed,true)))
+        }else{
+            alltodos = await db.select().from(todos).where(and(eq(todos.user_id,userId),eq(todos.completed,false)))
+        }
         return new Response(JSON.stringify(alltodos), { status: 200 })
 
     }catch(error){

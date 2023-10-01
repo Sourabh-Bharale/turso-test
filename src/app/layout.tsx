@@ -20,7 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <TanstackQuery>
         <html lang="en">
-          <body className={inter.className}>
+          <body className={`${inter.className} flex flex-col justify-center mx-2 `}>
             {children}
             <Toaster/>
             </body>

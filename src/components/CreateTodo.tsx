@@ -67,7 +67,8 @@ export function CreateTodo() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="flex gap-2">
+            Create new
             <PlusCircledIcon className="w-5 h-5"/>
         </Button>
       </DialogTrigger>

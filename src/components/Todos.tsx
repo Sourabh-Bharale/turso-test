@@ -5,26 +5,51 @@ import axios from 'axios'
 import React from 'react'
 import Todo from './Todo'
 import { DrizzleTodos } from '@/lib/db/schema'
+import { useSearchParams } from 'next/navigation'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
+import Link from 'next/link'
+import { buttonVariants } from './ui/button'
 
-type Props = {}
+const tabs = [{
+  tab: 'Todo',
+  completed: 'false'
+},
+{
+  tab: 'Completed',
+  completed: 'true'
+}
+]
+const Todos = () => {
+  const searchParams = useSearchParams()
+  const completed = searchParams.get('completed') || 'false'
 
-const Todos = (props: Props) => {
-    const {data:_todos,isLoading,isFetching} = useQuery({
-        queryKey:['todo'],
-        queryFn:async ()=>{
-            const {data} = await axios.get<DrizzleTodos[]>('/api/getTodo')
-            return data
-        }
-    })
+  const { data: _todos, isLoading, isFetching } = useQuery({
+    queryKey: ['todo', completed],
+    refetchInterval: 5000,
+    queryFn: async () => {
+      const { data } = await axios.get<DrizzleTodos[]>('/api/getTodo?completed=' + completed)
+      return data
+    }
+  })
   return (
-    <div>
+    <div className='flex flex-col gap-4'>
+      <div className="flex gap-2">
       {
-        _todos?.map((todo)=>(
-          <Todo todo={todo}/>
+        tabs.map((tab, idx) => (
+          <Link href={`/?completed=${tab.completed}`} className={buttonVariants({ variant: tab.completed === completed ? "default" : "secondary" })} key={idx} >{tab.tab}</Link>
         ))
       }
+      </div>
+      <div className="flex flex-col gap-2">
+      {
+        _todos?.map((todo) => (
+          <Todo todo={todo} />
+          ))
+        }
+        </div>
     </div>
   )
 }
+
 
 export default Todos
